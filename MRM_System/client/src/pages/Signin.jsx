@@ -96,10 +96,10 @@ function Signin() {
   </div>
 </div>
 
-<div className="flex items-center justify-center min-h-screen bg-gray-50">
+<div className="flex items-center justify-center min-h-screen bg-gray-50 ">
   <form 
     onSubmit={loginUser} 
-    className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md flex flex-col gap-5"
+    className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md flex flex-col gap-5 mt-10"
   >
     <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">Sign In</h2>
 
@@ -139,6 +139,13 @@ function Signin() {
     >
       Admin Sign In
     </button>
+    <button
+      type="submit"
+      className="bg-blue-600 text-white rounded-lg text-lg h-12 w-full hover:bg-blue-700 transition-colors"
+      onClick={()=>navigate("/user/login")}
+    >
+      User Sign In
+    </button>
    
   </form>
 </div>
@@ -148,3 +155,6 @@ function Signin() {
 }
 
 export default Signin;
+
+
+

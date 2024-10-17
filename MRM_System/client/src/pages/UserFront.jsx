@@ -112,7 +112,7 @@ function UserFront() {
           >
             <p className="font-semibold text-lg">Medicine Name: {drug.drugname}</p>
             <p className="text-gray-600">Price: ${drug.price}</p>
-            <p className="text-gray-600">Location: {drug.manufacturer}</p>
+            <p className="text-gray-600">Manufacturer: {drug.manufacturer}</p>
           </div>
           </Link>
         ))

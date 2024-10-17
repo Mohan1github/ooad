@@ -4,7 +4,7 @@ import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate } from "react-router-dom";
 function Adminregister() {
-    
+
   const navigate = useNavigate();
     const [name ,setName] = useState("")
     const [password,setPassword] = useState("")
@@ -18,7 +18,9 @@ function Adminregister() {
           password,
         })
 
-        if(res.status==="ok"){toast.success("Admin register successfully")}
+        if(res){toast.success("Admin register successfully!")
+          navigate("/admin-login");
+        }
         else{
           toast.error("Somthing went wrong!")
         }

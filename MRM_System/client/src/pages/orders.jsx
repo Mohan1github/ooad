@@ -2,32 +2,32 @@ import React, { useEffect ,useState} from 'react'
 import axios from 'axios';
 import { useParams ,useNavigate} from 'react-router-dom'
 import toast from 'react-hot-toast';
-import { trusted } from 'mongoose';
 function Orders() {
     const navigate = useNavigate();
     const [drugdata,setDrugData] = useState({})
     const {id} = useParams();
-
     const [cusname ,setCuname]  = useState("");
-    const [med,setMed] = useState("dolopins");
+    const [med,setMed] = useState("");
     const [quan,setQuan] = useState(1);
     const [addr,setAddr] = useState("");
     const [email,setEmail] = useState("");
     const [num,setNum] = useState(123);
-    
     const getdetails = ()=>{
         axios
         .get(`${process.env.REACT_APP_API_URL}/user/get-drug/${id}`)
         .then((response) => {
           setDrugData(response.data);
+          setMed(drugdata.drugname);
         });
     }
-
     const handleplaceorder = async()=>{
         try{
-            const res = await axios.post(`${process.env.REACT_APP_API_URL}/user/makeorders/medicine`,{cusname,med,quan,addr,email,num})
-            if(res.success === true){
+           
+           //"http://localhost:8081/createOrders"
+            const res = await axios.post(`${process.env.REACT_APP_API_URL}/user/makeorders/medicine`,{cusname,med:drugdata.drugname,quan,addr,email,num})
+            if(res){
                 toast.success("Order placed successfully!");
+                navigate('/')
             }
             else{
                 toast.error("Something went wrong");
@@ -38,8 +38,8 @@ function Orders() {
         }
     }
     useEffect(()=>{
-        getdetails()
-    },[id])
+        getdetails();
+    },[])
   return (
     // <div>Orders
     //     <h>{drugdata.drugname}</h>
@@ -59,6 +59,7 @@ function Orders() {
                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                  placeholder="John Doe"
                  onChange={(e)=>setCuname(e.target.value)}
+                 required
                />
              </div>
              <div>
@@ -68,6 +69,7 @@ function Orders() {
                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                  placeholder="johndoe@example.com"
                  onChange={(e)=>setEmail(e.target.value)}
+                 required
                />
              </div>
            </div>
@@ -79,8 +81,8 @@ function Orders() {
                <input
                  type="date"
                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                 onChange={(e)=>setDate(e.target.value)}
-                 defaultValue={Date.now()}
+                //  onChange={(e)=>setDate(e.target.value)}
+                 defaultValue={Date}
                /> */}
              </div>
              <div>
@@ -90,6 +92,7 @@ function Orders() {
                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                  placeholder="ORD12345"
                  onChange={(e)=>setNum(e.target.value)}
+                 required
                />
              </div>
            </div>
@@ -105,6 +108,7 @@ function Orders() {
                  defaultValue={drugdata.drugname}
                 //  onChange={(e)=>setMed(drugdata.drugname)}
                  value={drugdata.drugname}
+                 required
                />
              </div>
              <div>
@@ -114,6 +118,7 @@ function Orders() {
                  className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                  placeholder="100"
                  onChange={(e)=>setQuan(e.target.value)}
+                 required
                />
              </div>
            </div>
@@ -124,6 +129,7 @@ function Orders() {
                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                placeholder="123 Main St, City, State, ZIP"
                onChange={(e)=>setAddr(e.target.value)}
+               required
              />
            </div>
 

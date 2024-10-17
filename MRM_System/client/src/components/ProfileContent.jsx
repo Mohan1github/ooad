@@ -1,9 +1,10 @@
 import jwtDecode from "jwt-decode";
 import React, { useEffect, useState } from "react";
-
+import {useNavigate} from "react-router-dom"
 function ProfileContent() {
   const [pname, setPname] = useState();
   const [user, setUser] = useState({});
+    const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -336,6 +337,13 @@ function ProfileContent() {
         className="w-full bg-blue-600 text-white text-lg font-medium py-3 rounded-lg hover:bg-blue-700 transition-all"
       >
         Save
+      </button>
+      <button
+        type="submit"
+        className="w-full bg-blue-600 text-white text-lg font-medium py-3 rounded-lg hover:bg-blue-700 transition-all"
+        onClick={()=>navigate("pd")}
+      >
+        Inventory
       </button>
     </div>
   </form>

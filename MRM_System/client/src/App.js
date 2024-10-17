@@ -11,6 +11,8 @@ import PrivateRoutes from "./routes/ProtectedRoutes";
 import MyApp from "./pages/AdminSignin";
 import Adminregister from "./pages/adminregister";
 import Orders from "./pages/orders";
+import SignIn from "./pages/usersignin";
+import SignUp from "./pages/usersignup";
 const App = () => {
   return (
     <>
@@ -23,6 +25,8 @@ const App = () => {
           <Route path="*" element={<NotFound />} />
           <Route element={<UserFront />} path="/" />
           <Route element={<Orders />} path="orders/:id/medicine" />
+          <Route element={<SignIn />} path="/user/login" />
+          <Route element={<SignUp />} path="/user/signup" />
           <Route element={<MyApp />} path="/admin-login" />
           <Route element={<Adminregister />} path="/admin-register" />
           <Route element={<AdminDashboard />} path="/ad" />

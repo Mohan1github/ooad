@@ -122,7 +122,7 @@ app.put("/users/:id/verification", (req, res) => {
   const id = req.params.id;
   const verification = req.body.verification;
 
-  UserModel.findByIdAndUpdate(id, { verification: verification }, { new: true })
+  PharmacyModel.findByIdAndUpdate(id, { verification: verification }, { new: true })
     .then((user) => {
       if (!user) {
         return res.status(404).send({
@@ -226,10 +226,9 @@ app.post("/admin/login", async (req, res) => {
         username: user.username,
         email: user.email,
       },
-      "secret1234"
+      "secret1234" 
     );
-
-    return res.json({ status: "ok", user: token });
+    return res.send({ status: "ok", user: token });
   } else {
     return res.json({ status: "error", user: false });
   }
@@ -241,10 +240,8 @@ app.post("/admin/register", async (req, res) => {
     await Admin.create({
       username: req.body.name,
       email: req.body.email,
-      password: newPassword,
-
-    });
-    res.json({ status: "ok" });
+      password: newPassword});
+    return res.json({ status: "ok" });
   } catch (err) {
     res.json({ status: "error", error: "Duplicate email" });
   }
@@ -260,7 +257,62 @@ app.get("/getpharmacy", async (req, res) => {
 });
 
 
+//  user routes
 
+
+app.post("/user/signup", async (req, res) => {
+  try {
+    console.log(req.body.email)
+    const newPassword = await bcrypt.hash(req.body.password, 10);
+    const newuser = new UserModel({
+      name: req.body.name,
+      email: req.body.email,
+      password: newPassword,
+      confirmpassword:req.body.confpassword});
+
+      const saving = await newuser.save();
+      if(saving){res.json({ status: "ok" });}
+      else{
+         res.json({ status: "Not ok" });
+      }
+    
+  } catch (err) {
+    res.json({ status: "error", error: "Duplicate email" });
+  }
+});
+
+
+
+
+
+app.post("/user/login", async (req, res) => {
+  const user = await UserModel.findOne({
+    email: req.body.email,
+  });
+
+  if (!user) {
+    return { status: "error", error: "Invalid login" };
+  }
+
+  const isPasswordValid = await bcrypt.compare(
+    req.body.password,
+    user.password
+  );
+
+  if (isPasswordValid) {
+    const token = jwt.sign(
+      {
+        name: user.name,
+        email: user.email,
+      },
+      "secret123"
+    );
+
+    return res.json({ status: "ok", user: token });
+  } else {
+    return res.json({ status: "error", user: false });
+  }
+});
 app.listen(process.env.REACT_APP_SERVER_PORT, () => {
   console.log(`server running on port ${process.env.REACT_APP_SERVER_PORT}`);
 });
